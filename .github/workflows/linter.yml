@@ -1,0 +1,26 @@
+name: linter
+
+on:
+  push:
+
+permissions:
+  contents: read
+
+jobs:
+  linter:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-go@v6
+        with:
+          go-version: stable
+      - name: Install golangci-lint
+        uses: jaxxstorm/action-install-gh-release@v2.1.0
+        with:
+          repo: golangci/golangci-lint
+          tag: v2.11.1
+          cache: enable
+          binaries-location: golangci-lint-2.11.1-linux-amd64
+
+      - name: Run linter
+        run: golangci-lint run
